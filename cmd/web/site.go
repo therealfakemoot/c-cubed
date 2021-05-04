@@ -11,8 +11,10 @@ type Site struct {
 }
 
 func (s *Site) RenderIndex(w http.ResponseWriter, r *http.Request) {
-	err := s.Templates.Execute(w, nil)
+	err := s.Templates.ExecuteTemplate(w, "index.page.tpl", nil)
 	if err != nil {
 		log.Println("error executing template for index: ", err)
+		http.Error(w, "error rendering template", 500)
+		return
 	}
 }
